@@ -18,7 +18,7 @@ if [ -n "${FACEBOOK_KEY}" ]; then
 	echo "Facebook activate."
 	sed -i 's|#facebook|push '"$FACEBOOK_URL"'${FACEBOOK_KEY};|g' $NGINX_TEMPLATE
 	ENV_OK=1
-else 
+else
 	sed -i 's|#facebook| |g' $NGINX_TEMPLATE
 fi
 
@@ -26,13 +26,21 @@ if [ -n "${INSTAGRAM_KEY}" ]; then
 	echo "Instagram activate."
 	sed -i 's|#instagram|push '"$INSTAGRAM_URL"'${INSTAGRAM_KEY};|g' $NGINX_TEMPLATE
 	ENV_OK=1
-else 
+else
 	sed -i 's|#instagram| |g' $NGINX_TEMPLATE
+fi
+
+if [ -n "${TWITCH_KEY}" ]; then
+	echo "Twitch activate."
+	sed -i 's|#twitch|push '"$TWITCH_URL"'${TWITCH_KEY};|g' $NGINX_TEMPLATE
+	ENV_OK=1
+else
+	sed -i 's|#twitch| |g' $NGINX_TEMPLATE
 fi
 
 if [ $ENV_OK -eq 1 ]; then
     envsubst < $NGINX_TEMPLATE > $NGINX_CONF
-else 
+else
 	echo "Start local server."
 fi
 
